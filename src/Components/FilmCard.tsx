@@ -8,6 +8,10 @@ export interface FilmCardProps {
     onToggleWatched: (id: string) => void;
 }
 
+function isRatingValid(rating: number){
+    return rating >= 1 && rating <= 10;
+}
+
 function FilmCard(film: FilmCardProps) {
     return (
         <div>
@@ -18,6 +22,7 @@ function FilmCard(film: FilmCardProps) {
             <p>{film.watched}</p>
             <button onClick={() => film.onToggleWatched(film.id)}>Změnit stav shlédnutí</button>
             {film.watched === true ? <div>Zhlédnuto✅</div> : null}
+            {isRatingValid(film.rating) === true ? <p>{film.rating}</p> : <div>Neplatné hodnocení</div>}
         </div>
     );
 }

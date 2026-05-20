@@ -10,7 +10,7 @@ const films: FilmCardProps[] = [
     title: 'Pulp Fiction',
     year: 1994,
     genre: 'Crime',
-    rating: 8.9,
+    rating: 12,
     watched: true,
     onToggleWatched: dummyToggle,
   },
