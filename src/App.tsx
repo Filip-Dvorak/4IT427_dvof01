@@ -1,10 +1,8 @@
-import FilmCard, { type FilmCardProps } from './Components/FilmCard'
+import FilmCard from './Components/FilmCard'
+import useWatchlist from './Hooks/useWatchilist'
+import type { Film } from './Types/film.types'
 
-function dummyToggle(id: string) {
-  console.log(`dummy call ${id}`);
-}
-
-const films: FilmCardProps[] = [
+const initialFilms:Film[] = [
   {
     id: '1',
     title: 'Pulp Fiction',
@@ -12,7 +10,6 @@ const films: FilmCardProps[] = [
     genre: 'Crime',
     rating: 12,
     watched: true,
-    onToggleWatched: dummyToggle,
   },
   {
     id: '2',
@@ -21,7 +18,6 @@ const films: FilmCardProps[] = [
     genre: 'Animation',
     rating: 8.6,
     watched: false,
-    onToggleWatched: dummyToggle,
   },
   {
     id: '3',
@@ -30,15 +26,22 @@ const films: FilmCardProps[] = [
     genre: 'Sci-Fi',
     rating: 8.7,
     watched: false,
-    onToggleWatched: dummyToggle,
   }
 ]
 
 function App() {
+ const {films, toggleWatched, markAllAsWatched} = useWatchlist(initialFilms)
+
+
   return (
     <>
+    <button onClick={() => markAllAsWatched()}>Označit vše jako zhlédnuté</button>
       {films.map((film) => (
-        <FilmCard key={film.id} {...film} />
+        <FilmCard
+          key={film.id}
+          {...film}
+          onToggleWatched={() => toggleWatched(film.title)}
+        />
       ))}
     </>
   )
