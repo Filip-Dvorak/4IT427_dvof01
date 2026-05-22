@@ -49,55 +49,61 @@ const AddFilmForm = () => {
   }
 
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      style={{ display: 'flex', flexDirection: 'column', gap: '10px', maxWidth: '320px', margin: '20px 0' }}
-    >
-      <div>
+    <form onSubmit={handleSubmit(onSubmit)} className="grid gap-4">
+      <div className="grid gap-2">
+        <label className="text-sm font-semibold text-slate-200">Název filmu</label>
         <input
           {...register('title')}
           placeholder="Název filmu"
+          className="rounded-3xl border border-white/10 bg-slate-950/90 px-4 py-3 text-sm text-white outline-none transition focus:border-red-500 focus:ring-2 focus:ring-red-500/20"
         />
-        {errors.title ? <p style={{ color: 'red' }}>{errors.title.message}</p> : null}
+        {errors.title ? <p className="text-xs text-red-400">{errors.title.message}</p> : null}
       </div>
 
-      <div>
-        <label>
-          Rok:
-          <select {...register('year', { valueAsNumber: true })}>
-            {Array.from({ length: 200 }, (_, i) => new Date().getFullYear() - i).map((year) => (
-              <option key={year} value={year}>
-                {year}
-              </option>
-            ))}
-          </select>
-        </label>
-        {errors.year ? <p style={{ color: 'red' }}>{errors.year.message}</p> : null}
+      <div className="grid gap-2">
+        <label className="text-sm font-semibold text-slate-200">Rok</label>
+        <select
+          {...register('year', { valueAsNumber: true })}
+          className="rounded-3xl border border-white/10 bg-slate-950/90 px-4 py-3 text-sm text-white outline-none transition focus:border-red-500 focus:ring-2 focus:ring-red-500/20"
+        >
+          {Array.from({ length: 200 }, (_, i) => new Date().getFullYear() - i).map((year) => (
+            <option key={year} value={year}>
+              {year}
+            </option>
+          ))}
+        </select>
+        {errors.year ? <p className="text-xs text-red-400">{errors.year.message}</p> : null}
       </div>
 
-      <div>
+      <div className="grid gap-2">
+        <label className="text-sm font-semibold text-slate-200">Žánr</label>
         <input
           {...register('genre')}
           placeholder="Žánr"
+          className="rounded-3xl border border-white/10 bg-slate-950/90 px-4 py-3 text-sm text-white outline-none transition focus:border-red-500 focus:ring-2 focus:ring-red-500/20"
         />
-        {errors.genre ? <p style={{ color: 'red' }}>{errors.genre.message}</p> : null}
+        {errors.genre ? <p className="text-xs text-red-400">{errors.genre.message}</p> : null}
       </div>
 
-      <div>
-        <label>
-          Hodnocení (1-10):
-          <input
-            {...register('rating', { valueAsNumber: true })}
-            type="number"
-            min="1"
-            max="10"
-            step="0.1"
-          />
-        </label>
-        {errors.rating ? <p style={{ color: 'red' }}>{errors.rating.message}</p> : null}
+      <div className="grid gap-2">
+        <label className="text-sm font-semibold text-slate-200">Hodnocení (1-10)</label>
+        <input
+          {...register('rating', { valueAsNumber: true })}
+          type="number"
+          min="1"
+          max="10"
+          step="0.1"
+          className="rounded-3xl border border-white/10 bg-slate-950/90 px-4 py-3 text-sm text-white outline-none transition focus:border-red-500 focus:ring-2 focus:ring-red-500/20"
+        />
+        {errors.rating ? <p className="text-xs text-red-400">{errors.rating.message}</p> : null}
       </div>
 
-      <button type="submit">Přidat film</button>
+      <button
+        type="submit"
+        className="rounded-full bg-red-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-red-500"
+      >
+        Přidat film
+      </button>
     </form>
   )
 }
