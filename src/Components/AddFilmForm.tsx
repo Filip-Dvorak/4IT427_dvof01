@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import useWatchlist from '../Hooks/useWatchilist'
 import type { Film } from '../Types/film.types'
+import { useNavigate } from 'react-router-dom'
 
 const filmSchema = z.object({
   title: z.string().min(1, 'Název je povinný'),
@@ -16,12 +17,13 @@ const filmSchema = z.object({
     .number('Hodnocení musí být číslo')
     .min(1, 'Hodnocení musí být minimálně 1')
     .max(10, 'Hodnocení musí být maximálně 10'),
-})
-
-type FilmFormValues = z.infer<typeof filmSchema>
-
-const AddFilmForm = () => {
-  const { addFilm } = useWatchlist()
+  })
+  
+  type FilmFormValues = z.infer<typeof filmSchema>
+  
+  const AddFilmForm = () => {
+    const { addFilm } = useWatchlist()
+    const navigate = useNavigate()
 
   const {
     register,
@@ -44,7 +46,7 @@ const AddFilmForm = () => {
       id: crypto.randomUUID(),
       watched: false,
     } as Film)
-
+    navigate('/watchlist')
     reset()
   }
 

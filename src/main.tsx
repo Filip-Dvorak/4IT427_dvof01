@@ -4,41 +4,26 @@ import { createRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
 import App from './App.tsx'
 import { WatchlistProvider } from './Context/WatchListContext.tsx'
-import type { Film } from './Types/film.types'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
-const initialFilms: Film[] = [
-  {
-    id: '1',
-    title: 'Pulp Fiction',
-    year: 1994,
-    genre: 'Crime',
-    rating: 12,
-    watched: true,
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 5 * 60 * 1000,
+      retry: 2,
+    },
   },
-  {
-    id: '2',
-    title: 'Spirited Away',
-    year: 2001,
-    genre: 'Animation',
-    rating: 8.6,
-    watched: false,
-  },
-  {
-    id: '3',
-    title: 'Interstellar',
-    year: 2014,
-    genre: 'Sci-Fi',
-    rating: 8.7,
-    watched: false,
-  },
-]
+})
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <BrowserRouter>
-      <WatchlistProvider initialFilms={initialFilms}>
-        <App />
-      </WatchlistProvider>
-    </BrowserRouter>
+    <QueryClientProvider client={queryClient}>
+      <BrowserRouter>
+        <WatchlistProvider>
+          <App />
+        </WatchlistProvider>
+      </BrowserRouter>
+    </QueryClientProvider>
   </StrictMode>,
 )
+

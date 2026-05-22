@@ -3,7 +3,9 @@ import FilmCard from '../Components/FilmCard'
 import useWatchlist from '../Hooks/useWatchilist'
 
 function WatchlistPage() {
-  const { films, toggleWatched, markAllAsWatched } = useWatchlist()
+  const { films, toggleWatched, markAllAsWatched, isLoading, isError, error, refetch } = useWatchlist()
+
+  const errorMessage = error instanceof Error ? error.message : 'Nastala neznámá chyba.'
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100">
@@ -23,14 +25,33 @@ function WatchlistPage() {
         </header>
 
         <div className="grid gap-6 xl:grid-cols-[minmax(0,2fr)_360px]">
-          <section className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
-            {films.map((film) => (
-              <FilmCard
-                key={film.id}
-                {...film}
-                onToggleWatched={() => toggleWatched(film.id)}
-              />
-            ))}
+          <section className="grid gap-6 sm:grid-cols-1 xl:grid-cols-[minmax(0,2fr)]">
+            {isLoading ? (
+              <div className="rounded-[2rem] border border-white/10 bg-slate-900/85 p-12 text-center text-lg text-slate-200 shadow-[0_25px_80px_rgba(0,0,0,0.35)]">
+                Načítám…
+              </div>
+            ) : isError ? (
+              <div className="rounded-[2rem] border border-rose-500/30 bg-slate-900/85 p-12 text-center text-lg text-slate-200 shadow-[0_25px_80px_rgba(0,0,0,0.35)]">
+                <p className="mb-4 text-red-400">Nepodařilo se načíst filmy.</p>
+                <p className="mb-6 text-sm text-slate-400">{errorMessage}</p>
+                <button
+                  className="rounded-full bg-red-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-red-500"
+                  onClick={() => refetch()}
+                >
+                  Zkusit znovu
+                </button>
+              </div>
+            ) : (
+              <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
+                {films.map((film) => (
+                  <FilmCard
+                    key={film.id}
+                    {...film}
+                    onToggleWatched={() => toggleWatched(film.id)}
+                  />
+                ))}
+              </div>
+            )}
           </section>
 
           <aside className="rounded-[2rem] border border-white/10 bg-slate-900/85 p-6 shadow-[0_25px_80px_rgba(0,0,0,0.35)] backdrop-blur-xl">
