@@ -1,6 +1,7 @@
 import './index.css'
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
+import { BrowserRouter } from 'react-router-dom'
 import App from './App.tsx'
 import { WatchlistProvider } from './Context/WatchListContext.tsx'
 import type { Film } from './Types/film.types'
@@ -34,8 +35,10 @@ const initialFilms: Film[] = [
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <WatchlistProvider initialFilms={initialFilms}>
-      <App />
-    </WatchlistProvider>
+    <BrowserRouter>
+      <WatchlistProvider initialFilms={initialFilms}>
+        <App />
+      </WatchlistProvider>
+    </BrowserRouter>
   </StrictMode>,
 )

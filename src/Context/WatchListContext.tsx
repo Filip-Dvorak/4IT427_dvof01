@@ -5,7 +5,7 @@ interface WatchlistContextType {
   films: Film[]
   addFilm: (film: Film) => void
   removeFilm: (id: string) => void
-  toggleWatched: (title: string) => void
+  toggleWatched: (id: string) => void
   markAllAsWatched: () => void
 }
 
@@ -29,10 +29,10 @@ export function WatchlistProvider({ children, initialFilms = [] }: WatchlistProv
   const removeFilm = (id: string) =>
     setFilms((previous) => previous.filter((film) => film.id !== id))
 
-  const toggleWatched = (title: string) => {
+  const toggleWatched = (id: string) => {
     setFilms((currentFilms) =>
       currentFilms.map((film) =>
-        film.title === title ? { ...film, watched: !film.watched } : film
+        film.id === id ? { ...film, watched: !film.watched } : film
       )
     )
   }
